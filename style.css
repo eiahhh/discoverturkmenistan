@@ -1,0 +1,236 @@
+/* ============================================================
+   style.css — Turkmenistan Website
+   PURPOSE: Custom properties ONLY for things Tailwind cannot
+   handle natively:
+     • Google Fonts import
+     • CSS custom properties / variables
+     • Complex background patterns
+     • Multi-stop gradient text effects
+     • Keyframe animations
+     • Pseudo-element underline transitions
+     • image onerror fallback
+   ALL layout, spacing, colors, typography sizing = Tailwind.
+   ============================================================ */
+
+/* --- Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Pro:wght@300;400;600&family=Space+Mono:wght@400;700&display=swap');
+
+/* --- CSS Custom Properties (Design Tokens) --- */
+:root {
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'Crimson Pro', serif;
+    --font-mono: 'Space Mono', monospace;
+
+    --color-fire: #c4621a;
+    --color-gold: #ffd700;
+    --color-ember: #ff6b00;
+    --color-ash: #3d1c00;
+    --color-sand: #f5ddb0;
+    --color-carpet-red: #8b1a1a;
+}
+
+/* --- Base Font Application --- */
+body {
+    font-family: var(--font-body);
+}
+
+.font-display {
+    font-family: var(--font-display);
+}
+
+.font-mono-custom {
+    font-family: var(--font-mono);
+}
+
+/* --- Flame Gradient Text ---
+   Cannot be done with Tailwind alone (requires clip + gradient). */
+.flame-text {
+    background: linear-gradient(90deg, var(--color-ember), var(--color-gold), #ff4500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* --- Background Patterns ---
+   Repeating gradients used as decorative textures; not possible
+   via standard Tailwind utility classes. */
+.carpet-pattern {
+    background-color: var(--color-carpet-red);
+    background-image:
+        repeating-linear-gradient(45deg,
+            rgba(196, 98, 26, 0.3) 0,
+            rgba(196, 98, 26, 0.3) 2px,
+            transparent 0,
+            transparent 50%),
+        repeating-linear-gradient(-45deg,
+            rgba(255, 215, 0, 0.15) 0,
+            rgba(255, 215, 0, 0.15) 2px,
+            transparent 0,
+            transparent 50%);
+    background-size: 20px 20px;
+}
+
+.dot-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, var(--color-gold) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.05;
+    pointer-events: none;
+}
+
+/* --- Multi-stop Diagonal Gradients (Hero Backgrounds) ---
+   These use 4+ color stops at custom angles; Tailwind only supports
+   basic 2-stop gradients via from/via/to. */
+.hero-bg {
+    background: linear-gradient(135deg,
+            #1a0a00 0%,
+            #3d1c00 30%,
+            #7a3b00 60%,
+            #c4621a 100%);
+}
+
+.page-hero-brown {
+    background: linear-gradient(160deg,
+            #1c0d00 0%,
+            #3d1c00 40%,
+            #5c2800 70%,
+            #8b3a00 100%);
+}
+
+.page-hero-dark {
+    background: linear-gradient(160deg,
+            #1a0800 0%,
+            #2d1200 40%,
+            #5c2800 70%,
+            #8b3a00 100%);
+}
+
+.page-hero-green {
+    background: linear-gradient(160deg,
+            #0a1a00 0%,
+            #1a3300 40%,
+            #2d5c00 70%,
+            #4d8500 100%);
+}
+
+/* --- Keyframe Animations ---
+   Tailwind animate-* covers only spin/ping/pulse/bounce;
+   custom keyframes must live in CSS. */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes flicker {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.82;
+    }
+}
+
+.animate-fade-up {
+    animation: fadeUp 0.9s ease forwards;
+}
+
+.animate-delay-1 {
+    animation: fadeUp 0.9s ease 0.2s forwards;
+    opacity: 0;
+}
+
+.animate-delay-2 {
+    animation: fadeUp 0.9s ease 0.5s forwards;
+    opacity: 0;
+}
+
+.animate-delay-3 {
+    animation: fadeUp 0.9s ease 0.8s forwards;
+    opacity: 0;
+}
+
+.flame-flicker {
+    animation: flicker 2s ease-in-out infinite;
+}
+
+/* --- Nav Link Underline Transition ---
+   Requires pseudo-element width animation; not achievable
+   with Tailwind utilities alone. */
+.nav-link {
+    position: relative;
+    transition: color 0.3s;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-fire);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #f5a623;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-link.active {
+    color: #fbbf24;
+    /* amber-400 */
+}
+
+/* --- Card Hover Lift ---
+   box-shadow values are custom; Tailwind shadow scale doesn't
+   include color-tinted shadows like rgba(196,98,26,0.25). */
+.card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(196, 98, 26, 0.25);
+}
+
+/* --- Attraction Card Shadow --- */
+.attraction-card {
+    transition: box-shadow 0.3s ease;
+}
+
+.attraction-card:hover {
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.18);
+}
+
+/* --- Tip Card Lift --- */
+.tip-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tip-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Season Progress Bar ---
+   Simple pill shape not part of standard Tailwind utilities. */
+.season-bar {
+    height: 8px;
+    border-radius: 4px;
+}
