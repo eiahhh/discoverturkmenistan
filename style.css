@@ -1,21 +1,5 @@
-/* ============================================================
-   style.css — Turkmenistan Website
-   PURPOSE: Custom properties ONLY for things Tailwind cannot
-   handle natively:
-     • Google Fonts import
-     • CSS custom properties / variables
-     • Complex background patterns
-     • Multi-stop gradient text effects
-     • Keyframe animations
-     • Pseudo-element underline transitions
-     • image onerror fallback
-   ALL layout, spacing, colors, typography sizing = Tailwind.
-   ============================================================ */
-
-/* --- Google Fonts --- */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Pro:wght@300;400;600&family=Space+Mono:wght@400;700&display=swap');
 
-/* --- CSS Custom Properties (Design Tokens) --- */
 :root {
     --font-display: 'Playfair Display', serif;
     --font-body: 'Crimson Pro', serif;
@@ -29,7 +13,6 @@
     --color-carpet-red: #8b1a1a;
 }
 
-/* --- Base Font Application --- */
 body {
     font-family: var(--font-body);
 }
@@ -42,8 +25,7 @@ body {
     font-family: var(--font-mono);
 }
 
-/* --- Flame Gradient Text ---
-   Cannot be done with Tailwind alone (requires clip + gradient). */
+/* GRADIENT TEXT */
 .flame-text {
     background: linear-gradient(90deg, var(--color-ember), var(--color-gold), #ff4500);
     -webkit-background-clip: text;
@@ -51,22 +33,9 @@ body {
     background-clip: text;
 }
 
-/* --- Background Patterns ---
-   Repeating gradients used as decorative textures; not possible
-   via standard Tailwind utility classes. */
-.carpet-pattern {
+/* BACKGROUNDS */
+.pattern {
     background-color: var(--color-carpet-red);
-    background-image:
-        repeating-linear-gradient(45deg,
-            rgba(196, 98, 26, 0.3) 0,
-            rgba(196, 98, 26, 0.3) 2px,
-            transparent 0,
-            transparent 50%),
-        repeating-linear-gradient(-45deg,
-            rgba(255, 215, 0, 0.15) 0,
-            rgba(255, 215, 0, 0.15) 2px,
-            transparent 0,
-            transparent 50%);
     background-size: 20px 20px;
 }
 
@@ -80,15 +49,11 @@ body {
     pointer-events: none;
 }
 
-/* --- Multi-stop Diagonal Gradients (Hero Backgrounds) ---
-   These use 4+ color stops at custom angles; Tailwind only supports
-   basic 2-stop gradients via from/via/to. */
 .hero-bg {
-    background: linear-gradient(135deg,
-            #1a0a00 0%,
-            #3d1c00 30%,
-            #7a3b00 60%,
-            #c4621a 100%);
+    background-image: linear-gradient(to bottom, rgba(10, 6, 0, 0.55) 0%, rgba(20, 10, 0, 0.65) 100%), url('https://i.pinimg.com/1200x/6b/92/97/6b9297296909dcee735d96e257def9a3.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .page-hero-brown {
@@ -115,9 +80,6 @@ body {
             #4d8500 100%);
 }
 
-/* --- Keyframe Animations ---
-   Tailwind animate-* covers only spin/ping/pulse/bounce;
-   custom keyframes must live in CSS. */
 @keyframes fadeUp {
     from {
         opacity: 0;
@@ -165,9 +127,6 @@ body {
     animation: flicker 2s ease-in-out infinite;
 }
 
-/* --- Nav Link Underline Transition ---
-   Requires pseudo-element width animation; not achievable
-   with Tailwind utilities alone. */
 .nav-link {
     position: relative;
     transition: color 0.3s;
@@ -194,12 +153,8 @@ body {
 
 .nav-link.active {
     color: #fbbf24;
-    /* amber-400 */
 }
 
-/* --- Card Hover Lift ---
-   box-shadow values are custom; Tailwind shadow scale doesn't
-   include color-tinted shadows like rgba(196,98,26,0.25). */
 .card-hover {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -209,7 +164,6 @@ body {
     box-shadow: 0 20px 40px rgba(196, 98, 26, 0.25);
 }
 
-/* --- Attraction Card Shadow --- */
 .attraction-card {
     transition: box-shadow 0.3s ease;
 }
@@ -218,7 +172,6 @@ body {
     box-shadow: 0 24px 48px rgba(0, 0, 0, 0.18);
 }
 
-/* --- Tip Card Lift --- */
 .tip-card {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -228,8 +181,6 @@ body {
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
 }
 
-/* --- Season Progress Bar ---
-   Simple pill shape not part of standard Tailwind utilities. */
 .season-bar {
     height: 8px;
     border-radius: 4px;
